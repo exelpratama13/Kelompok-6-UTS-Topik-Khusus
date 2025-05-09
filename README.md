@@ -8,6 +8,7 @@
 | 3  | 2211081026  |Rifko Ahmad         |   
 | 4  | 2122082026  |M. Arrazi Agazali    |  
 
+
 ## Deskripsi Proyek
 Sistem Manajemen Perpustakaan adalah aplikasi web yang dibangun menggunakan Flask untuk mengelola data buku perpustakaan. Aplikasi ini mengintegrasikan MySQL untuk penyimpanan data dan Elasticsearch untuk fitur pencarian yang canggih. Sistem ini memungkinkan pengguna untuk menambah buku baru dan melakukan pencarian buku dengan cepat dan efisien.
 
@@ -18,37 +19,46 @@ Sistem Manajemen Perpustakaan adalah aplikasi web yang dibangun menggunakan Flas
 - API RESTful untuk integrasi
 - Antarmuka web yang responsif
 
-## Persyaratan
-- Python 3.x
-- MySQL Server
-- Elasticsearch 7.x
-- Git
+## Persyaratan Sistem
+1. Python 3.x
+2. MySQL Server 8.x
+3. Elasticsearch 7.x
+4. Git
+5. Virtual Environment (venv)
 
-## Instalasi
+## Langkah-langkah Instalasi
 
-1. Clone repository
+### 1. Persiapan Awal
 bash
+# Clone repository
 git clone [url-repository]
 cd sistem-manajemen-perpustakaan
 
-
-2. Buat dan aktifkan virtual environment
-bash
+# Buat virtual environment
 python -m venv venv
-# Untuk Windows
+
+# Aktifkan virtual environment
+# Untuk Windows:
 venv\Scripts\activate
-# Untuk Linux/Mac
+# Untuk Linux/Mac:
 source venv/bin/activate
 
 
-3. Install dependensi
+### 2. Instalasi Dependensi
 bash
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install semua dependensi
 pip install -r requirements.txt
 
 
-4. Konfigurasi variabel lingkungan
-Buat file .env di direktori utama dengan variabel berikut:
+### 3. Konfigurasi Database
 
+#### MySQL
+1. Pastikan MySQL Server sudah terinstall dan berjalan
+2. Buat file .env di root project dengan isi:
+env
 MYSQL_HOST=localhost
 MYSQL_USER=nama_pengguna_anda
 MYSQL_PASSWORD=kata_sandi_anda
@@ -56,6 +66,20 @@ MYSQL_DATABASE=perpustakaan
 ELASTICSEARCH_HOST=localhost
 ELASTICSEARCH_PORT=9200
 
+
+#### Elasticsearch
+1. Download dan install Elasticsearch 7.x
+2. Pastikan Elasticsearch berjalan di port 9200
+3. Buka browser dan akses http://localhost:9200 untuk memastikan Elasticsearch berjalan
+
+### 4. Menjalankan Aplikasi
+bash
+# Pastikan virtual environment aktif
+# Jalankan aplikasi
+python app.py
+
+
+Aplikasi akan berjalan di http://localhost:5000
 
 ## Struktur Proyek
 
@@ -69,39 +93,63 @@ ELASTICSEARCH_PORT=9200
 └── README.md          # Dokumentasi proyek
 
 
-## Menjalankan Aplikasi
+## Penggunaan API
+
+### 1. Menambah Buku Baru
 bash
-python app.py
+POST /books
+Content-Type: application/json
 
-Aplikasi akan tersedia di http://localhost:5000
+{
+    "judul": "Judul Buku",
+    "penulis": "Nama Penulis",
+    "tahun_terbit": 2024,
+    "penerbit": "Nama Penerbit",
+    "isbn": "9781234567890",
+    "deskripsi": "Deskripsi buku"
+}
 
-## Endpoint API
-- GET /: Halaman utama aplikasi
-- POST /books: Menambah buku baru
-  - Body: JSON dengan field (judul, penulis, tahun_terbit, penerbit, isbn, deskripsi)
-- GET /books: Mendapatkan daftar semua buku
-- GET /books/search?q=: Mencari buku berdasarkan kata kunci
+
+### 2. Melihat Semua Buku
+bash
+GET /books
+
+
+### 3. Mencari Buku
+bash
+GET /books/search?q=kata_kunci
+
 
 ## Struktur Database
+
 ### Tabel Books
-- id (INT, AUTO_INCREMENT, PRIMARY KEY)
-- judul (VARCHAR(255))
-- penulis (VARCHAR(255))
-- tahun_terbit (INT)
-- penerbit (VARCHAR(255))
-- isbn (VARCHAR(13))
-- deskripsi (TEXT)
-- created_at (TIMESTAMP)
+| Kolom | Tipe Data | Keterangan |
+|-------|-----------|------------|
+| id | INT | Primary Key, Auto Increment |
+| judul | VARCHAR(255) | Judul buku |
+| penulis | VARCHAR(255) | Nama penulis |
+| tahun_terbit | INT | Tahun terbit buku |
+| penerbit | VARCHAR(255) | Nama penerbit |
+| isbn | VARCHAR(13) | Nomor ISBN |
+| deskripsi | TEXT | Deskripsi buku |
+| created_at | TIMESTAMP | Waktu pembuatan record |
 
-## Konfigurasi Database
-### MySQL
-- Pastikan server MySQL berjalan
-- Database akan dibuat otomatis saat pertama kali menjalankan aplikasi
-- Tabel books akan dibuat otomatis dengan struktur yang diperlukan
+## Troubleshooting
 
-### Elasticsearch
-- Pastikan server Elasticsearch berjalan di port 9200
-- Indeks akan dibuat otomatis saat menambahkan buku pertama
+### 1. Masalah Koneksi MySQL
+- Pastikan MySQL Server berjalan
+- Periksa kredensial di file .env
+- Pastikan database perpustakaan sudah dibuat
+
+### 2. Masalah Elasticsearch
+- Pastikan Elasticsearch berjalan di port 9200
+- Periksa log Elasticsearch untuk error
+- Pastikan memori cukup untuk menjalankan Elasticsearch
+
+### 3. Masalah Aplikasi
+- Pastikan semua dependensi terinstall
+- Periksa log aplikasi untuk error
+- Pastikan virtual environment aktif
 
 ## Kontribusi
 1. Fork repository
