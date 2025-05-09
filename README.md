@@ -1,4 +1,4 @@
-# Sistem Manajemen Perpustakaan
+# Sistem Manajemen Buku dengan Elasticsearch dan MySQL
 
 ## Anggota Tim
 | No |     NIM    |        Nama        |
