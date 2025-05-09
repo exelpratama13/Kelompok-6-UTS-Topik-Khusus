@@ -6,7 +6,7 @@
 | 1  | 2211082012  |M. Zidhan Prasetyo  |
 | 2  | 2211083011  |Exel Pratama        |    
 | 3  | 2211081026  |Rifko Ahmad         |   
-| 4  | 2122082026  |M. Arazi Agazali    |  
+| 4  | 2122082026  |M. Arrazi Agazali    |  
 
 ## Deskripsi Proyek
 Sistem Manajemen Perpustakaan adalah aplikasi web yang dibangun menggunakan Flask untuk mengelola data buku perpustakaan. Aplikasi ini mengintegrasikan MySQL untuk penyimpanan data dan Elasticsearch untuk fitur pencarian yang canggih. Sistem ini memungkinkan pengguna untuk menambah buku baru dan melakukan pencarian buku dengan cepat dan efisien.
