@@ -12,156 +12,92 @@
 ## Deskripsi Proyek
 Sistem Manajemen Perpustakaan adalah aplikasi web yang dibangun menggunakan Flask untuk mengelola data buku perpustakaan. Aplikasi ini mengintegrasikan MySQL untuk penyimpanan data dan Elasticsearch untuk fitur pencarian yang canggih. Sistem ini memungkinkan pengguna untuk menambah buku baru dan melakukan pencarian buku dengan cepat dan efisien.
 
-## Fitur
-- Manajemen data buku (tambah dan lihat)
-- Pencarian buku menggunakan Elasticsearch
-- Penyimpanan data di MySQL
-- API RESTful untuk integrasi
-- Antarmuka web yang responsif
+## Persyaratan
 
-## Persyaratan Sistem
-1. Python 3.x
-2. MySQL Server 8.x
-3. Elasticsearch 7.x
-4. Git
-5. Virtual Environment (venv)
+- Python 3.7+
+- MySQL Server
+- Elasticsearch 7.x
+- pip (Python package manager)
 
-## Langkah-langkah Instalasi
+## Instalasi
 
-### 1. Persiapan Awal
-bash
-# Clone repository
-git clone [url-repository]
-cd sistem-manajemen-perpustakaan
+1. Clone repositori ini:
+```bash
+git clone https://github.com/exelpratama13/Kelompok-6-UTS-Topik-Khusus.git
+cd Kelompok-6-UTS-Topik-Khusus
+```
 
-# Buat virtual environment
+2. Buat virtual environment Python:
+```bash
 python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+```
 
-# Aktifkan virtual environment
-# Untuk Windows:
-venv\Scripts\activate
-# Untuk Linux/Mac:
-source venv/bin/activate
-
-
-### 2. Instalasi Dependensi
-bash
-# Upgrade pip
-python -m pip install --upgrade pip
-
-# Install semua dependensi
+3. Install dependensi:
+```bash
 pip install -r requirements.txt
+```
 
-
-### 3. Konfigurasi Database
-
-#### MySQL
-1. Pastikan MySQL Server sudah terinstall dan berjalan
-2. Buat file .env di root project dengan isi:
-env
+4. Buat file `.env` di root direktori dengan konfigurasi berikut:
+```
 MYSQL_HOST=localhost
-MYSQL_USER=nama_pengguna_anda
-MYSQL_PASSWORD=kata_sandi_anda
-MYSQL_DATABASE=perpustakaan
-ELASTICSEARCH_HOST=localhost
-ELASTICSEARCH_PORT=9200
+MYSQL_USER=root
+MYSQL_PASSWORD=your_password
+MYSQL_DATABASE=book_library
+ELASTICSEARCH_HOST=http://localhost:9200
+```
 
+5. Buat database MySQL:
+```sql
+CREATE DATABASE book_library;
+```
 
-#### Elasticsearch
-1. Download dan install Elasticsearch 7.x
-2. Pastikan Elasticsearch berjalan di port 9200
-3. Buka browser dan akses http://localhost:9200 untuk memastikan Elasticsearch berjalan
+## Menjalankan Aplikasi
 
-### 4. Menjalankan Aplikasi
-bash
-# Pastikan virtual environment aktif
-# Jalankan aplikasi
+1. Pastikan MySQL dan Elasticsearch sudah berjalan
+2. Jalankan aplikasi:
+```bash
 python app.py
+```
+3. Buka browser dan akses `http://localhost:5000`
 
+## Fitur
 
-Aplikasi akan berjalan di http://localhost:5000
+- Pencarian buku berdasarkan judul atau penulis
+- Tampilan cover buku
+- Informasi detail buku
+- Penyimpanan data di MySQL
+- Pencarian cepat menggunakan Elasticsearch
 
 ## Struktur Proyek
 
-├── app.py              # File aplikasi utama Flask
-├── database.py         # Konfigurasi dan pembuatan database
-├── mysql_manager.py    # Manajemen operasi MySQL
-├── elastic_manager.py  # Manajemen operasi Elasticsearch
-├── templates/          # Template HTML
-│   └── index.html     # Halaman utama
-├── requirements.txt    # Dependensi proyek
-└── README.md          # Dokumentasi proyek
+- `app.py` - File utama aplikasi Flask
+- `database.py` - Konfigurasi dan pembuatan database
+- `mysql_manager.py` - Manajer koneksi dan operasi MySQL
+- `elastic_manager.py` - Manajer koneksi dan operasi Elasticsearch
+- `templates/` - Direktori berisi template HTML
+- `requirements.txt` - Daftar dependensi Python
 
+## API Endpoints
 
-## Penggunaan API
+- `GET /api/books/search?q=<query>` - Mencari buku
+- `GET /api/books/<id>` - Mendapatkan detail buku
+- `POST /api/books` - Menambah buku baru
 
-### 1. Menambah Buku Baru
-bash
-POST /books
-Content-Type: application/json
+## Contoh Request Menambah Buku
 
-{
+```bash
+curl -X POST http://localhost:5000/api/books \
+  -H "Content-Type: application/json" \
+  -d '{
     "judul": "Judul Buku",
     "penulis": "Nama Penulis",
-    "tahun_terbit": 2024,
-    "penerbit": "Nama Penerbit",
-    "isbn": "9781234567890",
-    "deskripsi": "Deskripsi buku"
-}
+    "tahun_terbit": "Deskripsi buku",
+    "penerbit": "https://example.com/cover.jpg"
+    "isbn": "https://example.com/cover.jpg"
+    "deskripsi": "https://example.com/cover.jpg"
+  }'
+```
 
 
-### 2. Melihat Semua Buku
-bash
-GET /books
-
-
-### 3. Mencari Buku
-bash
-GET /books/search?q=kata_kunci
-
-
-## Struktur Database
-
-### Tabel Books
-| Kolom | Tipe Data | Keterangan |
-|-------|-----------|------------|
-| id | INT | Primary Key, Auto Increment |
-| judul | VARCHAR(255) | Judul buku |
-| penulis | VARCHAR(255) | Nama penulis |
-| tahun_terbit | INT | Tahun terbit buku |
-| penerbit | VARCHAR(255) | Nama penerbit |
-| isbn | VARCHAR(13) | Nomor ISBN |
-| deskripsi | TEXT | Deskripsi buku |
-| created_at | TIMESTAMP | Waktu pembuatan record |
-
-## Troubleshooting
-
-### 1. Masalah Koneksi MySQL
-- Pastikan MySQL Server berjalan
-- Periksa kredensial di file .env
-- Pastikan database perpustakaan sudah dibuat
-
-### 2. Masalah Elasticsearch
-- Pastikan Elasticsearch berjalan di port 9200
-- Periksa log Elasticsearch untuk error
-- Pastikan memori cukup untuk menjalankan Elasticsearch
-
-### 3. Masalah Aplikasi
-- Pastikan semua dependensi terinstall
-- Periksa log aplikasi untuk error
-- Pastikan virtual environment aktif
-
-## Kontribusi
-1. Fork repository
-2. Buat branch fitur baru (git checkout -b fitur/FiturBaru)
-3. Commit perubahan Anda (git commit -m 'Menambahkan Fitur Baru')
-4. Push ke branch (git push origin fitur/FiturBaru)
-5. Buat Pull Request
-
-## Lisensi
-Proyek ini dilisensikan di bawah Lisensi MIT - lihat file LICENSE untuk detail
-
-## Ucapan Terima Kasih
-- Flask Documentation
-- MySQL Documentation
-- Elasticsearch Documentation
